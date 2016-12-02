@@ -9,9 +9,12 @@ public class PixelInspectorTool implements Tool {
 	private PixelInspectorUI ui;
 	private ImageEditorModel model;
 	
+	
 	public PixelInspectorTool(ImageEditorModel model) {
 		this.model = model;
-		ui = new PixelInspectorUI();
+		ui = new PixelInspectorUI(model);
+		
+		
 	}
 	
 	@Override
@@ -71,5 +74,7 @@ public class PixelInspectorTool implements Tool {
 		// TODO Auto-generated method stub
 		
 	}
+
+	
 
 }

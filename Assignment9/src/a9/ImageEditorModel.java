@@ -4,10 +4,13 @@ public class ImageEditorModel {
 
 	private Picture original;
 	private ObservablePicture current;
+	private Pixel copiedPixel;
+	private boolean copyButtonOverride;
 	
 	public ImageEditorModel(Picture f) {
 		original = f;
 		current = original.copy().createObservable();
+		copyButtonOverride=false;
 	}
 
 	public ObservablePicture getCurrent() {
@@ -32,5 +35,21 @@ public class ImageEditorModel {
 			}
 		}
 		current.resumeObservable();
+	}
+	
+	public void setCopiedPixel(Pixel p){
+		copiedPixel=p;
+	}
+	
+	public Pixel getCopiedPixel(){
+		return copiedPixel;
+	}
+	
+	public void setCopyButtonOverride(boolean x){
+		copyButtonOverride=x;
+	}
+	
+	public boolean getCopyButtonOverride(){
+		return copyButtonOverride;
 	}
 }

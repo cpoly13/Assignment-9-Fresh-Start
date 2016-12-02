@@ -12,7 +12,7 @@ public class PaintBrushTool implements Tool {
 	
 	public PaintBrushTool(ImageEditorModel model) {
 		this.model = model;
-		ui = new PaintBrushToolUI();
+		ui = new PaintBrushToolUI(model);
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {

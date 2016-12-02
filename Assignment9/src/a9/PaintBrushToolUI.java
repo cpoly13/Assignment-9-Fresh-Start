@@ -16,8 +16,9 @@ public class PaintBrushToolUI extends JPanel implements ChangeListener {
 	private JSlider green_slider;
 	private JSlider blue_slider;
 	private PictureView color_preview;
+	private ImageEditorModel model;
 	
-	public PaintBrushToolUI() {
+	public PaintBrushToolUI(ImageEditorModel model) {
 		setLayout(new GridLayout(0,1));
 		
 		JPanel color_chooser_panel = new JPanel();
@@ -25,6 +26,8 @@ public class PaintBrushToolUI extends JPanel implements ChangeListener {
 		
 		JPanel slider_panel = new JPanel();
 		slider_panel.setLayout(new GridLayout(0,1));
+		
+		this.model=model;
 		
 		JPanel red_slider_panel = new JPanel();
 		JLabel red_label = new JLabel("Red:");
@@ -83,9 +86,30 @@ public class PaintBrushToolUI extends JPanel implements ChangeListener {
 			}
 		}
 		preview_frame.resumeObservable();
+		model.setCopyButtonOverride(false);
 	}
 	
+	public void changeColorToPaint(Pixel toCopy) {
+		red_slider.setValue((int) (toCopy.getRed()*100));
+		green_slider.setValue((int) (toCopy.getGreen()*100));
+		blue_slider.setValue((int) (toCopy.getBlue()*100));
+		
+		ObservablePicture preview_frame = color_preview.getPicture();
+		preview_frame.suspendObservable();
+		for (int x=0; x<preview_frame.getWidth(); x++) {
+			for (int y=0; y<preview_frame.getHeight(); y++) {
+				preview_frame.setPixel(x, y, toCopy);
+			}
+		}
+		preview_frame.resumeObservable();
+	}
+	
+	
+	
 	public Pixel getBrushColor() {
+		if(model.getCopyButtonOverride()){
+			changeColorToPaint(model.getCopiedPixel());
+		}
 		return color_preview.getPicture().getPixel(0,0);
 	}
 }

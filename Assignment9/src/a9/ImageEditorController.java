@@ -1,16 +1,19 @@
 package a9;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-public class ImageEditorController implements ToolChoiceListener, MouseListener, MouseMotionListener {
+public class ImageEditorController implements ToolChoiceListener, MouseListener, MouseMotionListener  {
 
 	private ImageEditorView view;
 	private ImageEditorModel model;
 	private Tool current_tool;
 	private PixelInspectorTool inspector_tool;
 	private PaintBrushTool paint_brush_tool;
+	
 	
 	public ImageEditorController(ImageEditorView view, ImageEditorModel model) {
 		this.view = view;
@@ -25,6 +28,8 @@ public class ImageEditorController implements ToolChoiceListener, MouseListener,
 		
 		this.toolChosen(view.getCurrentToolName());
 	}
+	
+	
 
 	@Override
 	public void toolChosen(String tool_name) {
@@ -71,5 +76,7 @@ public class ImageEditorController implements ToolChoiceListener, MouseListener,
 	public void mouseMoved(MouseEvent e) {
 		current_tool.mouseMoved(e);
 	}
+
+	
 
 }
