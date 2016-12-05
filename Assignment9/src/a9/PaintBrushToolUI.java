@@ -3,20 +3,24 @@ package a9;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class PaintBrushToolUI extends JPanel implements ChangeListener {
+public class PaintBrushToolUI extends JPanel implements ChangeListener, ActionListener {
 
 	private JSlider red_slider;
 	private JSlider green_slider;
 	private JSlider blue_slider;
 	private PictureView color_preview;
 	private ImageEditorModel model;
+	private JButton undo;
 	
 	public PaintBrushToolUI(ImageEditorModel model) {
 		setLayout(new GridLayout(0,1));
@@ -27,7 +31,13 @@ public class PaintBrushToolUI extends JPanel implements ChangeListener {
 		JPanel slider_panel = new JPanel();
 		slider_panel.setLayout(new GridLayout(0,1));
 		
+		
 		this.model=model;
+		
+		undo= new JButton("Undo");
+		undo.addActionListener(this);
+		
+		
 		
 		JPanel red_slider_panel = new JPanel();
 		JLabel red_label = new JLabel("Red:");
@@ -69,6 +79,7 @@ public class PaintBrushToolUI extends JPanel implements ChangeListener {
 		color_chooser_panel.add(color_preview, BorderLayout.EAST);
 
 		add(color_chooser_panel);
+		add(undo);
 		
 		stateChanged(null);
 	}
@@ -111,5 +122,12 @@ public class PaintBrushToolUI extends JPanel implements ChangeListener {
 			changeColorToPaint(model.getCopiedPixel());
 		}
 		return color_preview.getPicture().getPixel(0,0);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		model.undo();
+		
 	}
 }

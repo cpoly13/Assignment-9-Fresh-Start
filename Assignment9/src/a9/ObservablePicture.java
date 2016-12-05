@@ -7,6 +7,7 @@ public interface ObservablePicture extends Picture {
 	
 	void unregisterROIObserver(ROIObserver observer);
 	
+	
 	void suspendObservable();
 	void resumeObservable();
 }

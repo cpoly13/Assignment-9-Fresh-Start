@@ -1,16 +1,21 @@
 package a9;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ImageEditorModel {
 
 	private Picture original;
 	private ObservablePicture current;
 	private Pixel copiedPixel;
 	private boolean copyButtonOverride;
+	private ArrayList <Picture> previousPics;
 	
 	public ImageEditorModel(Picture f) {
 		original = f;
 		current = original.copy().createObservable();
 		copyButtonOverride=false;
+		previousPics= new ArrayList<Picture>();
 	}
 
 	public ObservablePicture getCurrent() {
@@ -22,7 +27,9 @@ public class ImageEditorModel {
 	}
 
 	public void paintAt(int x, int y, Pixel brushColor, int brush_size) {
-		current.suspendObservable();;
+		previousPics.add(current.copy());
+		current.suspendObservable();
+		
 		
 		for (int xpos=x-brush_size+1; xpos <=x+brush_size-1; xpos++) {
 			for (int ypos=y-brush_size+1; ypos <=y+brush_size-1; ypos++) {
@@ -35,6 +42,20 @@ public class ImageEditorModel {
 			}
 		}
 		current.resumeObservable();
+	}
+	
+	public void undo(){
+		if(previousPics.size()>0){
+		Picture previous=previousPics.get(previousPics.size()-1).copy();
+		current.suspendObservable();
+		for(int x=0; x<current.getWidth(); x++){
+			for(int y=0; y<current.getHeight(); y++){
+				current.setPixel(x, y,previous.getPixel(x, y));
+			}
+		}
+		previousPics.remove(previousPics.size()-1);
+		current.resumeObservable();
+		}
 	}
 	
 	public void setCopiedPixel(Pixel p){

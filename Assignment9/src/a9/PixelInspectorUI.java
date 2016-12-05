@@ -14,6 +14,7 @@ public class PixelInspectorUI extends JPanel implements ActionListener {
 	private JLabel y_label;
 	private JLabel pixel_info;
 	private JButton copyPixel;
+	private JButton undo;
 	private Pixel pixelToCopy;
 	private ImageEditorModel model;
 	
@@ -24,14 +25,19 @@ public class PixelInspectorUI extends JPanel implements ActionListener {
 		y_label = new JLabel("Y: ");
 		pixel_info = new JLabel("(r,g,b)");
 		copyPixel=new JButton("Copy Pixel");
+		copyPixel.setActionCommand("copy");
 		copyPixel.addActionListener(this);
+		undo= new JButton("Undo");
+		undo.setActionCommand("undo");
+		undo.addActionListener(this);
 		
 
-		setLayout(new GridLayout(4,1));
+		setLayout(new GridLayout(5,1));
 		add(x_label);
 		add(y_label);
 		add(pixel_info);
 		add(copyPixel);
+		add(undo);
 	}
 	
 	public void setInfo(int x, int y, Pixel p) {
@@ -47,10 +53,17 @@ public class PixelInspectorUI extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
+		if(arg0.getActionCommand().equals("copy")){
 		System.out.println("Pixel to copy is: Red: "+pixelToCopy.getRed()+ " Green: "+ pixelToCopy.getGreen()+
 				" Blue: "+ pixelToCopy.getBlue());
 		model.setCopiedPixel(pixelToCopy);
 		model.setCopyButtonOverride(true);
+		}
+		
+		else if(arg0.getActionCommand().equals("undo")){
+			model.undo();
+		}
+		
 		
 	}
 }

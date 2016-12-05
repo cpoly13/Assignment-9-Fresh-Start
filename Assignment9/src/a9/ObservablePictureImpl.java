@@ -29,7 +29,7 @@ public class ObservablePictureImpl extends AnyPicture implements ObservablePictu
 		suspended = false;
 		changed_region = null;
 	}
-
+	
 	@Override
 	public void registerROIObserver(ROIObserver observer) {
 		registerROIObserver(observer, new RegionImpl(new Coordinate(0, 0), new Coordinate(getWidth()-1, getHeight()-1)));
