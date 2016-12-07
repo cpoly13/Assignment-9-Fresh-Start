@@ -18,6 +18,7 @@ public class PaintBrushToolUI extends JPanel implements ChangeListener, ActionLi
 	private JSlider red_slider;
 	private JSlider green_slider;
 	private JSlider blue_slider;
+	private JSlider size_slider;
 	private PictureView color_preview;
 	private ImageEditorModel model;
 	private JButton undo;
@@ -62,16 +63,25 @@ public class PaintBrushToolUI extends JPanel implements ChangeListener, ActionLi
 		blue_slider = new JSlider(0,100);
 		blue_slider.addChangeListener(this);
 		blue_slider_panel.add(blue_slider, BorderLayout.CENTER);
+		
+		JPanel size_slider_panel= new JPanel();
+		JLabel size_label=new JLabel("Size: ");
+		size_slider_panel.setLayout(new BorderLayout());
+		size_slider_panel.add(size_label,BorderLayout.WEST);
+		size_slider= new JSlider(0,10);
+		size_slider_panel.add(size_slider, BorderLayout.CENTER);
 
 		// Assumes green label is widest and asks red and blue label
 		// to be the same.
 		Dimension d = green_label.getPreferredSize();
 		red_label.setPreferredSize(d);
 		blue_label.setPreferredSize(d);
+		size_label.setPreferredSize(d);
 		
 		slider_panel.add(red_slider_panel);
 		slider_panel.add(green_slider_panel);
 		slider_panel.add(blue_slider_panel);
+		slider_panel.add(size_slider_panel);
 
 		color_chooser_panel.add(slider_panel, BorderLayout.CENTER);
 
@@ -82,6 +92,10 @@ public class PaintBrushToolUI extends JPanel implements ChangeListener, ActionLi
 		add(undo);
 		
 		stateChanged(null);
+	}
+	
+	public int getBrushSize(){
+		return size_slider.getValue();
 	}
 
 	@Override

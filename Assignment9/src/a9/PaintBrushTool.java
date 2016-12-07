@@ -45,6 +45,7 @@ public class PaintBrushTool implements Tool {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		brush_size=ui.getBrushSize();
 		model.paintAt(e.getX(), e.getY(), ui.getBrushColor(), brush_size);
 	}
 

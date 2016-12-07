@@ -53,6 +53,8 @@ public class PixelInspectorUI extends JPanel implements ActionListener {
 		add(open);
 	}
 	
+	
+	
 	public void setInfo(int x, int y, Pixel p) {
 		x_label.setText("X: " + x);
 		y_label.setText("Y: " + y);
