@@ -34,6 +34,10 @@ public class ImageEditorView extends JPanel {
 		
 		tool_ui = null;
 	}
+	
+	public void dispose(){
+		main_frame.dispose();
+	}
 
 	public void addToolChoiceListener(ToolChoiceListener l) {
 		chooser_widget.addToolChoiceListener(l);

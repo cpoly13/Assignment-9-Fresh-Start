@@ -3,10 +3,12 @@ package a9;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class PixelInspectorUI extends JPanel implements ActionListener {
 
@@ -15,6 +17,8 @@ public class PixelInspectorUI extends JPanel implements ActionListener {
 	private JLabel pixel_info;
 	private JButton copyPixel;
 	private JButton undo;
+	private JButton open;
+	private JTextField picSite;
 	private Pixel pixelToCopy;
 	private ImageEditorModel model;
 	
@@ -24,20 +28,29 @@ public class PixelInspectorUI extends JPanel implements ActionListener {
 		x_label = new JLabel("X: ");
 		y_label = new JLabel("Y: ");
 		pixel_info = new JLabel("(r,g,b)");
+		
 		copyPixel=new JButton("Copy Pixel");
 		copyPixel.setActionCommand("copy");
 		copyPixel.addActionListener(this);
 		undo= new JButton("Undo");
 		undo.setActionCommand("undo");
 		undo.addActionListener(this);
+		open=new JButton("Open");
+		open.setActionCommand("open");
+		open.addActionListener(this);
+		
+		picSite=new JTextField(10);
+		picSite.addActionListener(this);
 		
 
-		setLayout(new GridLayout(5,1));
+		setLayout(new GridLayout(7,1));
 		add(x_label);
 		add(y_label);
 		add(pixel_info);
 		add(copyPixel);
 		add(undo);
+		add(picSite);
+		add(open);
 	}
 	
 	public void setInfo(int x, int y, Pixel p) {
@@ -62,6 +75,18 @@ public class PixelInspectorUI extends JPanel implements ActionListener {
 		
 		else if(arg0.getActionCommand().equals("undo")){
 			model.undo();
+		}
+		
+		else if(arg0.getActionCommand().equals("open")){
+			String[] args=new String[]{picSite.getText()};
+			try {
+				ImageEditor.main(args);
+				model.disposePic();
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		

@@ -8,11 +8,22 @@ import javax.swing.JPanel;
 
 public class ImageEditor {
 	public static void main(String[] args) throws IOException {
-		Picture f = PictureImpl.readFromURL("http://www.cs.unc.edu/~kmp/kmp.jpg");
+		Picture f;
+		System.out.println(args.length);
+		
+		if(args.length==0){
+		f = PictureImpl.readFromURL("http://www.mtgeezer.com/wp-content/uploads/2014"
+				+ "/07/nat-games-street-fighter-2-hadouken.jpg");
+		}
+		
+		else{
+			f = PictureImpl.readFromURL(args[0]);
+		}
 
 		JFrame main_frame = new JFrame();
 		main_frame.setTitle("Assignment 9 Image Editor");
 		main_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 
 		ImageEditorModel model = new ImageEditorModel(f);
 		ImageEditorView view = new ImageEditorView(main_frame, model);

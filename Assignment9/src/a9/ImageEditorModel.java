@@ -2,8 +2,9 @@ package a9;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class ImageEditorModel {
+public class ImageEditorModel extends Observable {
 
 	private Picture original;
 	private ObservablePicture current;
@@ -16,6 +17,12 @@ public class ImageEditorModel {
 		current = original.copy().createObservable();
 		copyButtonOverride=false;
 		previousPics= new ArrayList<Picture>();
+		
+	}
+	
+	public void disposePic(){
+		setChanged();
+		notifyObservers();
 	}
 
 	public ObservablePicture getCurrent() {
