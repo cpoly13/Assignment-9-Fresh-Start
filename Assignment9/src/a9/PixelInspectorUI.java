@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -18,7 +19,6 @@ public class PixelInspectorUI extends JPanel implements ActionListener {
 	private JButton copyPixel;
 	private JButton undo;
 	private JButton open;
-	private JTextField picSite;
 	private Pixel pixelToCopy;
 	private ImageEditorModel model;
 	
@@ -38,18 +38,15 @@ public class PixelInspectorUI extends JPanel implements ActionListener {
 		open=new JButton("Open");
 		open.setActionCommand("open");
 		open.addActionListener(this);
-		
-		picSite=new JTextField(10);
-		picSite.addActionListener(this);
+	
 		
 
-		setLayout(new GridLayout(7,1));
+		setLayout(new GridLayout(6,1));
 		add(x_label);
 		add(y_label);
 		add(pixel_info);
 		add(copyPixel);
 		add(undo);
-		add(picSite);
 		add(open);
 	}
 	
@@ -69,10 +66,12 @@ public class PixelInspectorUI extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		if(arg0.getActionCommand().equals("copy")){
+			if(pixelToCopy!=null){
 		System.out.println("Pixel to copy is: Red: "+pixelToCopy.getRed()+ " Green: "+ pixelToCopy.getGreen()+
 				" Blue: "+ pixelToCopy.getBlue());
 		model.setCopiedPixel(pixelToCopy);
 		model.setCopyButtonOverride(true);
+			}
 		}
 		
 		else if(arg0.getActionCommand().equals("undo")){
@@ -80,14 +79,16 @@ public class PixelInspectorUI extends JPanel implements ActionListener {
 		}
 		
 		else if(arg0.getActionCommand().equals("open")){
-			String[] args=new String[]{picSite.getText()};
+			
+			String variable=JOptionPane.showInputDialog(null, "URL to open"); 
+			String[] args=new String[]{variable};
 			try {
 				ImageEditor.main(args);
 				model.disposePic();
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 		

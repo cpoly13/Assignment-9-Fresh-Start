@@ -9,11 +9,10 @@ import javax.swing.JPanel;
 public class ImageEditor {
 	public static void main(String[] args) throws IOException {
 		Picture f;
-		System.out.println(args.length);
 		
 		if(args.length==0){
-		f = PictureImpl.readFromURL("http://www.mtgeezer.com/wp-content/uploads/2014"
-				+ "/07/nat-games-street-fighter-2-hadouken.jpg");
+		f = PictureImpl.readFromURL("http://cdn.atl.clicrbs.com.br/wp-content/uploads"
+				+ "/sites/27/2015/07/StreetFighter2a.jpg");
 		}
 		
 		else{
