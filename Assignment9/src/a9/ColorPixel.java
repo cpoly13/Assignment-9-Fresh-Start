@@ -1,5 +1,7 @@
 package a9;
 
+
+
 public class ColorPixel implements Pixel {
 
 	private double red;
@@ -41,6 +43,22 @@ public class ColorPixel implements Pixel {
 		return ((((int) (getRed() * 255.0 + 0.5)) << 16) |
 				(((int) (getGreen() * 255.0 + 0.5)) << 8) |
 				(((int) (getBlue() * 255.0 + 0.5))));
+	}
+	
+	public Pixel blend(Pixel p, double weight) {
+		if (p == null) {
+			throw new RuntimeException("Error, null input");
+		}
+		
+		if (weight>1 || weight<0){
+			throw new RuntimeException("Error, weight out of bounds");
+		}
+
+		Pixel blendPixel = new ColorPixel(p.getRed() * (1.0 - weight) + this.red * weight,
+				p.getGreen() * (1.0 - weight) + this.green * weight, p.getBlue() * (1.0 - weight) + this.blue * weight);
+
+		return blendPixel;
+		
 	}
 
 	public static Pixel fromRGB(int rgb) {

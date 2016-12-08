@@ -33,9 +33,12 @@ public class ImageEditorModel extends Observable {
 		return current.getPixel(x, y);
 	}
 
-	public void paintAt(int x, int y, Pixel brushColor, int brush_size) {
+	public void paintAt(int x, int y, Pixel brushColor, int brush_size, int opacity) {
 		previousPics.add(current.copy());
+		
+		if(opacity==0){
 		current.suspendObservable();
+		
 		
 		
 		for (int xpos=x-brush_size+1; xpos <=x+brush_size-1; xpos++) {
@@ -49,6 +52,27 @@ public class ImageEditorModel extends Observable {
 			}
 		}
 		current.resumeObservable();
+		}
+		else{
+			current.suspendObservable();
+			
+			
+			
+			for (int xpos=x-brush_size+1; xpos <=x+brush_size-1; xpos++) {
+				for (int ypos=y-brush_size+1; ypos <=y+brush_size-1; ypos++) {
+					if (xpos >= 0 &&
+						xpos < current.getWidth() &&
+						ypos >= 0 &&
+						ypos < current.getHeight()) {
+						Pixel p=current.getPixel(xpos, ypos).blend(brushColor, ((double) opacity)/100);
+						
+						current.setPixel(xpos, ypos, p);
+					}
+				}
+			}
+			current.resumeObservable();
+			
+		}
 	}
 	
 	public void undo(){

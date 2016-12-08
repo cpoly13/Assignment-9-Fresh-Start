@@ -6,4 +6,5 @@ public interface Pixel {
 	double getBlue();
 	double getIntensity();
 	int toRGB();
+	Pixel blend(Pixel p, double weight);
 }
