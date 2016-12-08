@@ -2,6 +2,7 @@ package a9;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -87,9 +88,13 @@ public class PaintBrushToolUI extends JPanel implements ChangeListener, ActionLi
 
 		color_preview = new PictureView(new ObservablePictureImpl(50,50));
 		color_chooser_panel.add(color_preview, BorderLayout.EAST);
+		
+		JPanel buttonPanel= new JPanel();
+		buttonPanel.setLayout(new FlowLayout());
+		buttonPanel.add(undo);
 
 		add(color_chooser_panel);
-		add(undo);
+		add(buttonPanel);
 		
 		stateChanged(null);
 	}

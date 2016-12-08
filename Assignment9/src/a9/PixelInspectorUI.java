@@ -1,5 +1,7 @@
 package a9;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,22 +11,35 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class PixelInspectorUI extends JPanel implements ActionListener {
 
 	private JLabel x_label;
 	private JLabel y_label;
 	private JLabel pixel_info;
+	private JPanel infoPanel;
+	private JPanel pixelPanel;
+	private JPanel buttonPanel;
 	private JButton copyPixel;
 	private JButton undo;
 	private JButton open;
 	private Pixel pixelToCopy;
 	private ImageEditorModel model;
+	private PictureView zoomWindow;
 	
 	
 	public PixelInspectorUI(ImageEditorModel model) {
 		this.model=model;
+		
+		infoPanel=new JPanel();
+		infoPanel.setLayout(new BorderLayout());
+		
+		pixelPanel=new JPanel();
+		pixelPanel.setLayout(new GridLayout(0,1));
+		
+		buttonPanel=new JPanel();
+		buttonPanel.setLayout(new FlowLayout());
+		
 		x_label = new JLabel("X: ");
 		y_label = new JLabel("Y: ");
 		pixel_info = new JLabel("(r,g,b)");
@@ -38,16 +53,26 @@ public class PixelInspectorUI extends JPanel implements ActionListener {
 		open=new JButton("Open");
 		open.setActionCommand("open");
 		open.addActionListener(this);
+		
+		zoomWindow=new PictureView(new ObservablePictureImpl(60,60));
 	
 		
 
-		setLayout(new GridLayout(6,1));
-		add(x_label);
-		add(y_label);
-		add(pixel_info);
-		add(copyPixel);
-		add(undo);
-		add(open);
+		setLayout(new GridLayout(0,1));
+		
+		pixelPanel.add(x_label);
+		pixelPanel.add(y_label);
+		pixelPanel.add(pixel_info);
+		
+		infoPanel.add(pixelPanel, BorderLayout.WEST);
+		infoPanel.add(zoomWindow,BorderLayout.EAST);
+		
+		buttonPanel.add(copyPixel);
+		buttonPanel.add(undo);
+		buttonPanel.add(open);
+	
+		add(infoPanel);
+		add(buttonPanel);
 	}
 	
 	
@@ -60,6 +85,17 @@ public class PixelInspectorUI extends JPanel implements ActionListener {
 		//chris added
 		
 		pixelToCopy=new ColorPixel(p.getRed(),p.getGreen(),p.getBlue());
+	}
+	
+	public void setZoomPicture(Picture p){
+		ObservablePicture preview_frame =zoomWindow.getPicture();
+		preview_frame.suspendObservable();
+		for (int x=0; x<preview_frame.getWidth(); x++) {
+			for (int y=0; y<preview_frame.getHeight(); y++) {
+				preview_frame.setPixel(x, y, p.getPixel(x, y));
+			}
+		}
+		preview_frame.resumeObservable();
 	}
 
 	@Override

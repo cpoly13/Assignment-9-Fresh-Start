@@ -25,6 +25,7 @@ public class PixelInspectorTool implements Tool {
 	public void mousePressed(MouseEvent e) {
 		try {
 			ui.setInfo(e.getX(), e.getY(), model.getPixel(e.getX(), e.getY()));
+			ui.setZoomPicture(model.getCurrent().copy().extract(e.getX()-20, e.getY()-20, 60, 60));
 		}
 		catch (Exception ex) {
 			// Click may have been out of bounds. Do nothing in this case.
